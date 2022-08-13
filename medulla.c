@@ -13,6 +13,7 @@ int x;
 //int z;
 
 int tiltAngle;
+int stepperRPM =60;
 
 int prevX= 0;
 
@@ -34,8 +35,9 @@ Stepper StepperL(stepsPerRevolution, 8, 9, 10, 11);     // Change pin nos
 
 void setup() {
 
-  // set the speed at 60 rpm:
-  myStepper.setSpeed(60);                                // Stepper motor speed
+  // set the speed at 60 rpm
+  StepperR.setSpeed(stepperRPM);                                // Assign Stepper motor speed
+  StepperL.setSpeed(stepperRPM);
 
   Wire.begin();
   Wire.beginTransmission(MPU_addr);
@@ -75,6 +77,7 @@ void loop() {
 
   tiltAngle= 50*(x/90);
 
+  Serial.println("\n-----------------------------------------\n");
   Serial.print("AngleX= ");
   Serial.println(x);
   
@@ -98,9 +101,7 @@ void loop() {
           Serial.print ("Motor1 Speed = ");
           Serial.print (motor_speed, DEC);
           
-          Serial.print ("\nMotor2 Speed = ");
-          Serial.println ("0");
-          Serial.println("-----------------------------------------");
+          Serial.print ("\nMotor2 Speed = 0");
         }
 
         
@@ -108,12 +109,10 @@ void loop() {
         analogWrite (motor2_pin2, motor_speed);
         analogWrite (motor1_pin2, 0);
 
-          Serial.print ("Motor1 Speed = ");
-          Serial.print ("0");
+          Serial.print ("Motor1 Speed = 0");
           
           Serial.print ("\nMotor2 Speed = ");
           Serial.println (motor_speed, DEC);
-          Serial.println("-----------------------------------------");
         }
 
       //analogWrite (motor1_pin2, motor1_speed);
@@ -125,26 +124,45 @@ void loop() {
       analogWrite (motor1_pin2, 0);
       analogWrite (motor2_pin2, 0);
 
-          Serial.print ("Motor1 Speed = ");
-          Serial.print ("0");
+          Serial.print ("Motor1 Speed = 0");
           
-          Serial.print ("\nMotor2 Speed = ");
-          Serial.println ("0");
-          Serial.println("-----------------------------------------");
+          Serial.print ("\nMotor2 Speed = 0");
     }
 
-    prevX= x;
+    tiltAngle= x;                                                   // Thruster vector angle
 
+/////////////////////////////////////////////////////////////////    Thrust vectoring
 
-/////////////////////////////////////////////////////////////////
+    if(x>0){                                                        // Nautilus tilts Right
+      if(x>prevX){                                                  // Comparing cruuent roll angle reading with last reading
+        StepperR.step(x-prevX);
+        Serial.print ("\nTiltR =");
+        Serial.print (prevX+(x-prevX));
+      }
+      else{
+        StepperR.step(x-prevX);
+        Serial.print ("\nTiltR =");
+        Serial.print (prevX+(x-prevX));
+      }
+      Serial.print ("\nTiltL = 0");
+    }
 
-    // step one revolution  in one direction:
-    //Serial.println("clockwise");
-    myStepper.step(tiltAngle);
-   
-    // step one revolution in the other direction:
-    //Serial.println("counterclockwise");
-    //myStepper.step(-stepsPerRevolution);
-    delay(1000);
+    else{                                                           // Nautilus tilts Left
+      Serial.print ("\nTiltR = 0");
+      if(x>prevX){                                                  // Comparing cruuent roll angle reading with last reading
+        StepperL.step(x-prevX);
+        Serial.print ("\nTiltL =");
+        Serial.print (-(prevX+(x-prevX)));
+      }
+      else{
+        StepperL.step(x-prevX);
+        Serial.print ("\nTiltL =");
+        Serial.print (-(prevX+(x-prevX)));
+      }
+    }
+    
+    prevX= x;                                                     // Save previous x value reading
+    
+    delay(1000);                                                  // Delay (To be removed for production code)
 
 }
