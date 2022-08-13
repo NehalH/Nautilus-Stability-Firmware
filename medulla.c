@@ -1,4 +1,3 @@
-// Stepper motor on Wokwi!
 
 #include <Stepper.h>
 #include <Wire.h>
@@ -20,8 +19,8 @@ int tiltAngle;
 #define motor2_pin1 4
 #define motor2_pin2 5
 
-int motor1_speed;
-int motor2_speed;
+int motor_speed;
+//int motor2_speed;
 int stepsPerRevolution= 100;  // change this to fit the number of steps per revolution
 // for your motor
 
@@ -46,6 +45,8 @@ void setup() {
 
 void loop() {
 
+///////////////////////////////////////////////////////////////// Read angle
+
   Wire.beginTransmission(MPU_addr);
   Wire.write(0x3B);
   Wire.endTransmission(false);
@@ -59,11 +60,11 @@ void loop() {
   int yAng = map(AcY,minVal,maxVal,-90,90);
   int zAng = map(AcZ,minVal,maxVal,-90,90);
   
-  x= RAD_TO_DEG * (atan2(-yAng, -zAng)+PI);
+  x= RAD_TO_DEG * (atan2(-yAng, -zAng)+PI);                 // Convert rad to deg
   //y= RAD_TO_DEG * (atan2(-xAng, -zAng)+PI);
   //z= RAD_TO_DEG * (atan2(-yAng, -xAng)+PI);
   
-  if(x>90) x-=360;
+  if(x>90) x-=360;                                          // Convert angles (x>180) to Negative angles (0 to -180)
 
   tiltAngle= 50*(x/90);
 
@@ -76,22 +77,36 @@ void loop() {
   //Serial.print("AngleZ= ");
   //Serial.println(z);
 
-/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////    Dynamic roll stability
 
-  if(!(x<15) && !(x>345)){
+  if(!(x<15) || !(x>-15)){                                   // If x is not between +15 to -15 deg
 
-      motor1_speed = 125+x; //To move first motor
-      motor2_speed = 125+x; //To move second motor
+      motor_speed = 125*x; //To move first motor
+      //motor2_speed = 125*x; //To move second motor
 
-      if(x>180 && x<270){
-        analogWrite (motor1_pin2, motor1_speed);
+      if(x<90){                                            // If nautillus tilts 90 deg 
+        analogWrite (motor1_pin2, motor_speed);
         analogWrite (motor2_pin2, 0);
+
+          Serial.print ("Motor1 Speed = ");
+          Serial.print (motor_speed, DEC);
+          
+          Serial.print ("\nMotor2 Speed = ");
+          Serial.println ("0");
+          Serial.println("-----------------------------------------");
         }
 
         
-      if(x<180 && x>90){
+      else if(x<-269){                                             // x jumps to -270 deg after 90 deg (Conversion logic bug)
+        analogWrite (motor2_pin2, motor_speed);
         analogWrite (motor1_pin2, 0);
-        analogWrite (motor2_pin2, motor1_speed);
+
+          Serial.print ("Motor1 Speed = ");
+          Serial.print ("0");
+          
+          Serial.print ("\nMotor2 Speed = ");
+          Serial.println (motor_speed, DEC);
+          Serial.println("-----------------------------------------");
         }
 
       //analogWrite (motor1_pin2, motor1_speed);
@@ -102,14 +117,16 @@ void loop() {
   else{
       analogWrite (motor1_pin2, 0);
       analogWrite (motor2_pin2, 0);
+
+          Serial.print ("Motor1 Speed = ");
+          Serial.print ("0");
+          
+          Serial.print ("\nMotor2 Speed = ");
+          Serial.println ("0");
+          Serial.println("-----------------------------------------");
     }
     
-  Serial.print ("Motor1 Speed = ");
-  Serial.print (motor1_speed, DEC);
-  
-  Serial.print ("Motor2 Speed = ");
-  Serial.println (motor2_speed, DEC);
-  Serial.println("-----------------------------------------");
+
 
 /////////////////////////////////////////////////////////////////
 
