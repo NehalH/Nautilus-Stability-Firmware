@@ -14,6 +14,8 @@ int x;
 
 int tiltAngle;
 
+int prevX= 0;
+
 #define motor1_pin1 2
 #define motor1_pin2 3
 #define motor2_pin1 4
@@ -21,16 +23,19 @@ int tiltAngle;
 
 int motor_speed;
 //int motor2_speed;
-int stepsPerRevolution= 100;  // change this to fit the number of steps per revolution
+int stepsPerRevolution= 100;  // Steps per revolution
 // for your motor
 
 // initialize the stepper library on pins 8 through 11:
-Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+Stepper StepperR(stepsPerRevolution, 8, 9, 10, 11);
+Stepper StepperL(stepsPerRevolution, 8, 9, 10, 11);     // Change pin nos
+
+/////////////////////////////////////////////////////////////////
 
 void setup() {
 
   // set the speed at 60 rpm:
-  myStepper.setSpeed(60);
+  myStepper.setSpeed(60);                                // Stepper motor speed
 
   Wire.begin();
   Wire.beginTransmission(MPU_addr);
@@ -43,9 +48,11 @@ void setup() {
 
 }
 
+/////////////////////////////////////////////////////////////////
+
 void loop() {
 
-///////////////////////////////////////////////////////////////// Read angle
+  // Read angle
 
   Wire.beginTransmission(MPU_addr);
   Wire.write(0x3B);
@@ -125,7 +132,8 @@ void loop() {
           Serial.println ("0");
           Serial.println("-----------------------------------------");
     }
-    
+
+    prevX= x;
 
 
 /////////////////////////////////////////////////////////////////
