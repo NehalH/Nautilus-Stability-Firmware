@@ -99,7 +99,7 @@ void loop() {
         analogWrite (motor2_pin2, 0);
 
           Serial.print ("Motor1 Speed = ");
-          Serial.print (motor_speed, DEC);
+          Serial.print (-motor_speed, DEC);
           
           Serial.print ("\nMotor2 Speed = 0");
         }
@@ -138,11 +138,15 @@ void loop() {
         StepperR.step(x-prevX);
         Serial.print ("\nTiltR =");
         Serial.print (prevX+(x-prevX));
+        Serial.print ("\tIncrement = ");
+        Serial.print (x-prevX);
       }
       else{
         StepperR.step(x-prevX);
         Serial.print ("\nTiltR =");
         Serial.print (prevX+(x-prevX));
+        Serial.print ("\tIncrement = ");
+        Serial.print (x-prevX);
       }
       Serial.print ("\nTiltL = 0");
     }
@@ -153,11 +157,15 @@ void loop() {
         StepperL.step(x-prevX);
         Serial.print ("\nTiltL =");
         Serial.print (-(prevX+(x-prevX)));
+        Serial.print ("\tIncrement = ");
+        Serial.print (x-prevX);
       }
       else{
         StepperL.step(x-prevX);
         Serial.print ("\nTiltL =");
         Serial.print (-(prevX+(x-prevX)));
+        Serial.print ("\tIncrement = ");
+        Serial.print (x-prevX);
       }
     }
     
