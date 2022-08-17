@@ -22,7 +22,7 @@ int minVal=265;
 int maxVal=402;
  
 int x;
-//int y;
+int y;
 //int z;
 
 int tiltAngle;
@@ -101,11 +101,12 @@ void loop() {
   int zAng = map(AcZ,minVal,maxVal,-90,90);
   
   x= RAD_TO_DEG * (atan2(-yAng, -zAng)+PI);                 // Convert rad to deg
-  //y= RAD_TO_DEG * (atan2(-xAng, -zAng)+PI);
+  y= RAD_TO_DEG * (atan2(-xAng, -zAng)+PI);
   //z= RAD_TO_DEG * (atan2(-yAng, -xAng)+PI);
   
   if(x>90) x-=360;                                          // Convert angles (x>180) to Negative angles (0 to -180)
-
+  if(y>90) y-=360;  
+ 
   tiltAngle= 50*(x/90);
 
   Serial.println("\n-----------------------------------------\n");
@@ -199,6 +200,9 @@ void loop() {
     
     prevX= x;                                                     // Save previous x value reading
     
+ /////////////////////////////////////////////////////////////////    Thrust vectoring for pitch stability
+ 
+ 
     delay(1000);                                                  // Delay (To be removed for production code)
 
 }
