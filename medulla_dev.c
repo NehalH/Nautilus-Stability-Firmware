@@ -80,7 +80,7 @@ void loop() {
   int pwmVal= map (potVal,0, 1023, 1100, 1900);
   servo.writeMicroseconds(pwmVal);
  
-  int potVal2 = analogRead(potentiometerPin);
+  int potVal2 = analogRead(potentiometerPin2);
   int pwmVal2= map (potVal2,0, 1023, 1100, 1900);
   servo.writeMicroseconds(pwmVal2);
  //###################################################
