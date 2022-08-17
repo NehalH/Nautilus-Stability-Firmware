@@ -87,7 +87,7 @@ void loop() {
   //Serial.print("AngleZ= ");
   //Serial.println(z);
 
-/////////////////////////////////////////////////////////////////    Dynamic roll stability
+/////////////////////////////////////////////////////////////////    roll stability using ballasts
 
   if(!(x<15) || !(x>-15)){                                   // If x is not between +15 to -15 deg
 
@@ -115,9 +115,6 @@ void loop() {
           Serial.println (motor_speed, DEC);
         }
 
-      //analogWrite (motor1_pin2, motor1_speed);
-      //analogWrite (motor2_pin2, motor2_speed);
-
   }
 
   else{
@@ -131,7 +128,7 @@ void loop() {
 
     tiltAngle= x;                                                   // Thruster vector angle
 
-/////////////////////////////////////////////////////////////////    Thrust vectoring
+/////////////////////////////////////////////////////////////////    Thrust vectoring for roll stability
 
     if(x>0){                                                        // Nautilus tilts Right
       if(x>prevX){                                                  // Comparing cruuent roll angle reading with last reading
