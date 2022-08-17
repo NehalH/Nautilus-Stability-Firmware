@@ -1,6 +1,19 @@
 
 #include <Stepper.h>
 #include <Wire.h>
+#include <Servo.h>
+
+
+//################################################### Untested
+byte servoPin = 9;           // Change pin nos
+byte potentiometerPin = A0;
+Servo servo;
+
+byte servoPin2 = 9;           // Change pin nos
+byte potentiometerPin2 = A1;
+Servo servo2;
+
+//################################################### 
 
 const int MPU_addr=0x68;
 int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
@@ -44,7 +57,16 @@ void setup() {
   Wire.write(0x6B);
   Wire.write(0);
   Wire.endTransmission(true);
+ 
+ 
+  //################################################### Untested
+  servo.attach(servoPin);
+  servo.writeMicroseconds(1500);
+ 
+  servo2.attach(servoPin);
+  servo2.writeMicroseconds(1500);
 
+  //################################################### 
   // initialize the serial port:
   Serial.begin(9600);
 
@@ -53,9 +75,18 @@ void setup() {
 /////////////////////////////////////////////////////////////////
 
 void loop() {
-
+  //################################################### Untested
+  int potVal = analogRead(potentiometerPin);
+  int pwmVal= map (potVal,0, 1023, 1100, 1900);
+  servo.writeMicroseconds(pwmVal);
+ 
+  int potVal2 = analogRead(potentiometerPin);
+  int pwmVal2= map (potVal2,0, 1023, 1100, 1900);
+  servo.writeMicroseconds(pwmVal2);
+ //###################################################
+ 
+ 
   // Read angle
-
   Wire.beginTransmission(MPU_addr);
   Wire.write(0x3B);
   Wire.endTransmission(false);
