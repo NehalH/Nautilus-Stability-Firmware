@@ -5,11 +5,11 @@
 
 
 //################################################### Untested
-byte servoPin = 9;           // Change pin nos
+byte servoPin = 2;           // Change pin nos
 byte potentiometerPin = A0;
 Servo servo;
 
-byte servoPin2 = 9;           // Change pin nos
+byte servoPin2 = 3;           // Change pin nos
 byte potentiometerPin2 = A1;
 Servo servo2;
 
@@ -30,10 +30,10 @@ int stepperRPM =60;
 
 int prevX= 0;
 
-#define motor1_pin1 2
-#define motor1_pin2 3
-#define motor2_pin1 4
-#define motor2_pin2 5
+#define motor1_pin1 22
+#define motor1_pin2 24
+#define motor2_pin1 26
+#define motor2_pin2 28
 
 int motor_speed;
 //int motor2_speed;
@@ -42,7 +42,7 @@ int stepsPerRevolution= 100;  // Steps per revolution
 
 // initialize the stepper library on pins 8 through 11:
 Stepper StepperR(stepsPerRevolution, 8, 9, 10, 11);
-Stepper StepperL(stepsPerRevolution, 8, 9, 10, 11);     // Change pin nos
+Stepper StepperL(stepsPerRevolution, 4, 5, 6, 7);
 
 /////////////////////////////////////////////////////////////////
 
