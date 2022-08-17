@@ -63,7 +63,7 @@ void setup() {
   servo.attach(servoPin);
   servo.writeMicroseconds(1500);
  
-  servo2.attach(servoPin);
+  servo2.attach(servoPin2);
   servo2.writeMicroseconds(1500);
 
   //################################################### 
