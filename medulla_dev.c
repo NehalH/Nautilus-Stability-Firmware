@@ -13,6 +13,10 @@ byte servoPin2 = 3;           // Change pin nos
 byte potentiometerPin2 = A1;
 Servo servo2;
 
+byte servoPin3 = 4;           // Change pin nos
+byte potentiometerPin3 = A2;
+Servo servo3;
+
 //################################################### 
 
 const int MPU_addr=0x68;
@@ -65,7 +69,7 @@ void setup() {
  
   servo2.attach(servoPin2);
   servo2.writeMicroseconds(1500);
-
+ 
   //################################################### 
   // initialize the serial port:
   Serial.begin(9600);
@@ -82,7 +86,12 @@ void loop() {
  
   int potVal2 = analogRead(potentiometerPin2);
   int pwmVal2= map (potVal2,0, 1023, 1100, 1900);
-  servo.writeMicroseconds(pwmVal2);
+  servo2.writeMicroseconds(pwmVal2);
+ 
+  int potVal3 = analogRead(potentiometerPin3);
+  int pwmVal3= map (potVal3,0, 1023, 1100, 1900);
+  servo.writeMicroseconds(pwmVal3);
+  servo2.writeMicroseconds(pwmVal3);
  //###################################################
  
  
