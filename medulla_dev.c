@@ -13,6 +13,8 @@ byte servoPin2 = 3;           // Change pin nos
 byte potentiometerPin2 = A1;
 Servo servo2;
 
+byte potentiometerPin3 = A2;
+
 //################################################### 
 
 const int MPU_addr=0x68;
