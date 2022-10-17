@@ -3,7 +3,7 @@
 #include <Servo.h>
 
 
-//################################################### Untested
+//################################################### 
 byte servoPin = 8;           // Change pin nos
 byte potentiometerPin = A0;
 Servo servo;
@@ -197,11 +197,12 @@ void loop() {
       }
     }
     
-    prevX= x;                                                     // Save previous x value reading
+    prevX = x;                                                     // Save previous x value reading
     
  /////////////////////////////////////////////////////////////////    Thrust vectoring for pitch stability
  
+    // Delay (To be removed for production code)
  
-    delay(1000);                                                  // Delay (To be removed for production code)
+    delay(1000)
 
 }
