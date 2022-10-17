@@ -1,4 +1,4 @@
-#include <Stepper.h>
+include <Stepper.h>
 #include <Wire.h>
 #include <Servo.h>
 
@@ -205,6 +205,6 @@ void loop() {
  
     // Delay (To be removed for production code)
  
-    delay(1000)
+    delay(1000);
 
 }
