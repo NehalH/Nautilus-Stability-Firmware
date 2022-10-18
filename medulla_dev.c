@@ -199,7 +199,7 @@ void loop() {
     
     // Save previous x reading
  
-    prevX = x
+    prevX = x;
     
  /////////////////////////////////////////////////////////////////    Thrust vectoring for pitch stability
  
